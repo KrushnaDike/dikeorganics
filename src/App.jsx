@@ -11,6 +11,9 @@ import Checkout from "./pages/Checkout"
 import "./index.css"
 import Footer from "./pages/Footer"
 import ProductDetails from "./pages/ProductDetails"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Auth from "./components/auth/Auth"
 
 const theme = {
   token: {
@@ -25,6 +28,7 @@ function App() {
     <ConfigProvider theme={theme}>
       <Router>
         <div className="App">
+          <ToastContainer />
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -35,6 +39,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/auth" element={<Auth />} />
           </Routes>
           <Footer />
         </div>

@@ -1,18 +1,24 @@
-"use client"
-
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { Button, Drawer, Menu } from "antd"
-import { MenuOutlined, ShoppingCartOutlined } from "@ant-design/icons"
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Drawer, Menu, Badge } from 'antd';
+import { MenuOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
 
 function Header() {
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(false);
+
+    const cartItemCount = useSelector((state) => state.cart.items.length);
 
     return (
         <header className="fixed top-0 z-50 w-full bg-white/95 backdrop-blur shadow-sm">
             <div className="container mx-auto px-4">
                 <div className="flex h-20 items-center justify-between">
-                    <Button type="text" icon={<MenuOutlined />} onClick={() => setVisible(true)} className="md:hidden" />
+                    <Button
+                        type="text"
+                        icon={<MenuOutlined />}
+                        onClick={() => setVisible(true)}
+                        className="md:hidden"
+                    />
 
                     <div className="flex items-center gap-8">
                         <Link to="/">
@@ -41,9 +47,33 @@ function Header() {
                         </nav>
                     </div>
 
-                    <Button type="text" icon={<ShoppingCartOutlined />} size="large" />
+                    <div className="flex items-center gap-5">
+                        <Link to="/cart">
+                            <Badge count={cartItemCount} overflowCount={99}>
+                                <Button
+                                    type="text"
+                                    icon={<ShoppingCartOutlined />}
+                                    size="large"
+                                />
+                            </Badge>
+                        </Link>
+                        <Link to="/auth">
+                            <Button
+                                type="primary"
+                                icon={<UserOutlined />}
+                                size="large"
+                            >
+                                Sign In
+                            </Button>
+                        </Link>
+                    </div>
 
-                    <Drawer title="Menu" placement="left" onClose={() => setVisible(false)} open={visible}>
+                    <Drawer
+                        title="Menu"
+                        placement="left"
+                        onClose={() => setVisible(false)}
+                        open={visible}
+                    >
                         <nav className="flex flex-col gap-4">
                             <Link to="/" onClick={() => setVisible(false)}>
                                 Home
@@ -65,8 +95,7 @@ function Header() {
                 </div>
             </div>
         </header>
-    )
+    );
 }
 
-export default Header
-
+export default Header;
