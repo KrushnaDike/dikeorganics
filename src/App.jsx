@@ -14,6 +14,12 @@ import ProductDetails from "./pages/ProductDetails"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Auth from "./components/auth/Auth"
+import { ProtectedRoute } from 'protected-route-react';
+import Dashboard from "./pages/Admin/Dashboard"
+import AdminProducts from "./pages/Admin/Products"
+import Users from "./pages/Admin/Users"
+import AddProduct from "./pages/Admin/AddProduct"
+import EditProduct from "./pages/Admin/EditProduct"
 
 const theme = {
   token: {
@@ -40,6 +46,14 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/auth" element={<Auth />} />
+
+            {/* ADMIN ROUTES */}
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/admin/users" element={<Users />} />
+            <Route path="/admin/add-product" element={<AddProduct />} />
+            <Route path="/admin/edit-product/:id" element={<EditProduct />} />
+
           </Routes>
           <Footer />
         </div>

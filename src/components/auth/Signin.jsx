@@ -1,22 +1,22 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaLock, FaEnvelope, FaSignInAlt } from 'react-icons/fa';
+import { FaLock, FaEnvelope, FaSignInAlt, FaPhone } from 'react-icons/fa';
 import "./auth.css"
 
 const SignIn = ({ onTogglePage }) => {
     const [formData, setFormData] = useState({
-        email: '',
+        phone: '',
         password: '',
     });
 
-    const handleInputChange = (e) => {  
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Login with:', { email: formData.email, password: formData.password });
+        console.log('Login with:', { phone: formData.phone, password: formData.password });
         // Handle login logic here
     };
 
@@ -113,16 +113,16 @@ const SignIn = ({ onTogglePage }) => {
                         </motion.div>
 
                         <form onSubmit={handleSubmit}>
-                            <motion.div variants={itemVariants} className="mb-4 relative">
+                            <motion.div variants={itemVariants} className="mb-6 relative">
                                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gold-400">
-                                    <FaEnvelope />
+                                    <FaPhone />
                                 </div>
                                 <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
+                                    type="tel"
+                                    name="phone"
+                                    value={formData.phone}
                                     onChange={handleInputChange}
-                                    placeholder="           Email Address"
+                                    placeholder="           Phone Number"
                                     className="input-field pl-10"
                                     required
                                 />

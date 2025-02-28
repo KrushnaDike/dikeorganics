@@ -15,13 +15,14 @@ const cartSlice = createSlice({
     },
     addToCartSuccess: (state, action) => {
       state.loading = false;
-      const existingItem = state.items.find(
-        (item) => item.id === action.payload.id
-      );
+      const { id, quantity } = action.payload;
+
+      const existingItem = state.items.find((item) => item.id === id);
+
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += quantity; // Use provided quantity instead of always adding 1
       } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        state.items.push({ ...action.payload });
       }
     },
     addToCartFail: (state, action) => {

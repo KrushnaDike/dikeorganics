@@ -10,6 +10,7 @@ function ProductDetails() {
     const { id } = useParams();
     const [rotationDegree, setRotationDegree] = useState(0);
     const [isRotating, setIsRotating] = useState(false);
+    const [quantity, setQuantity] = useState(1);
 
     const dispatch = useDispatch()
     const products = useSelector((state) => state.products)
@@ -39,20 +40,15 @@ function ProductDetails() {
         setIsRotating(prev => !prev);
     };
 
+    // Handle Add to Cart
     const handleAddToCart = () => {
-        dispatch(addToCart(product));
-        toast.success(`${product.name} has been added to your cart!`);
+        dispatch(addToCart({ ...product, quantity }));
+        toast.success(`${product.name} (x${quantity}) added to cart!`);
     };
 
-    const incrementQuantity = (id, currentQuantity) => {
-        dispatch(updateQuantity(id, currentQuantity + 1));
-    };
-
-    const decrementQuantity = (id, currentQuantity) => {
-        if (currentQuantity > 1) {
-            dispatch(updateQuantity(id, currentQuantity - 1));
-        }
-    };
+    // Handle quantity change
+    const incrementQuantity = () => setQuantity(prev => prev + 1);
+    const decrementQuantity = () => setQuantity(prev => (prev > 1 ? prev - 1 : prev));
 
     if (!product) {
         return (
@@ -142,21 +138,9 @@ function ProductDetails() {
                         <div className="flex items-center gap-4 mb-6">
                             <span className="font-medium">Quantity:</span>
                             <div className="flex border border-gray-300 rounded-lg overflow-hidden">
-                                <button
-                                    onClick={() => decrementQuantity(product.id, product.quantity)}
-                                    className="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition-colors"
-                                >
-                                    -
-                                </button>
-                                <span className="px-4 py-1 flex items-center justify-center min-w-[40px]">
-                                    {product.quantity}
-                                </span>
-                                <button
-                                    onClick={() => incrementQuantity(product.id, product.quantity)}
-                                    className="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition-colors"
-                                >
-                                    +
-                                </button>
+                                <button onClick={decrementQuantity} className="px-3 py-1 bg-gray-100">-</button>
+                                <span className="px-4 py-1 min-w-[40px] text-center">{quantity}</span>
+                                <button onClick={incrementQuantity} className="px-3 py-1 bg-gray-100">+</button>
                             </div>
                         </div>
 

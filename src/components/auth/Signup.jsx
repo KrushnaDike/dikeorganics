@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser, FaLock, FaEnvelope, FaHome, FaPhone, FaCreditCard, FaArrowRight, FaArrowLeft, FaUserPlus } from 'react-icons/fa';
 
 const SignUp = ({ onTogglePage }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState({
-        email: '',
+        mobileNumber: '',
         password: '',
         confirmPassword: '',
+        otp: ['', '', '', ''],
+        email: '',
         firstName: '',
         lastName: '',
         phone: '',
@@ -21,11 +23,67 @@ const SignUp = ({ onTogglePage }) => {
         cvv: '',
     });
 
-    const totalSteps = 4;
+    // Refs for OTP inputs
+    const otpRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+
+    const totalSteps = 5;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    // Handle OTP input
+    const handleOtpChange = (index, value) => {
+        // Only allow numbers
+        if (value && !/^\d*$/.test(value)) return;
+
+        const newOtp = [...formData.otp];
+        newOtp[index] = value;
+
+        setFormData(prev => ({
+            ...prev,
+            otp: newOtp
+        }));
+
+        // Auto-focus next input if value is entered
+        if (value && index < 3) {
+            otpRefs[index + 1].current.focus();
+        }
+    };
+
+    // Handle backspace in OTP inputs
+    const handleOtpKeyDown = (index, e) => {
+        // If backspace is pressed and current field is empty, focus previous field
+        if (e.key === 'Backspace' && !formData.otp[index] && index > 0) {
+            otpRefs[index - 1].current.focus();
+        }
+    };
+
+    // Handle pasting OTP
+    const handleOtpPaste = (e) => {
+        e.preventDefault();
+        const pastedData = e.clipboardData.getData('text');
+
+        // Check if pasted content is a 4-digit number
+        if (/^\d{4}$/.test(pastedData)) {
+            const digits = pastedData.split('');
+            const newOtp = [...formData.otp];
+
+            digits.forEach((digit, index) => {
+                if (index < 4) {
+                    newOtp[index] = digit;
+                }
+            });
+
+            setFormData(prev => ({
+                ...prev,
+                otp: newOtp
+            }));
+
+            // Focus the last input
+            otpRefs[3].current.focus();
+        }
     };
 
     const nextStep = () => {
@@ -43,12 +101,39 @@ const SignUp = ({ onTogglePage }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (currentStep === totalSteps - 1) {
-            console.log('Register with:', formData);
+            // Combine OTP digits into a single string for submission
+            const otpString = formData.otp.join('');
+            const submissionData = {
+                ...formData,
+                otp: otpString
+            };
+            console.log('Register with:', submissionData);
             // Handle registration logic here
         } else {
             nextStep();
         }
     };
+
+    // Simulate sending OTP
+    const sendOTP = () => {
+        console.log('Sending OTP to:', formData.mobileNumber);
+        // In a real app, you would call an API to send OTP
+        alert(`OTP sent to ${formData.mobileNumber}`);
+
+        // Focus the first OTP input after sending
+        if (otpRefs[0].current) {
+            otpRefs[0].current.focus();
+        }
+    };
+
+    // Focus first OTP input when reaching the OTP step
+    useEffect(() => {
+        if (currentStep === 1 && otpRefs[0].current) {
+            setTimeout(() => {
+                otpRefs[0].current.focus();
+            }, 300);
+        }
+    }, [currentStep]);
 
     // Animation variants
     const containerVariants = {
@@ -85,20 +170,20 @@ const SignUp = ({ onTogglePage }) => {
                     >
                         <motion.div variants={itemVariants} className="mb-6">
                             <h2 className="text-3xl font-bold gold-text mb-2">Create Account</h2>
-                            <p className="text-gray-400">Step 1: Account Information</p>
+                            <p className="text-gray-400">Step 1: Mobile Number & Password</p>
                         </motion.div>
 
                         <motion.div variants={itemVariants} className="mb-4 relative">
                             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gold-400">
-                                <FaEnvelope />
+                                <FaPhone />
                             </div>
                             <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
+                                type="tel"
+                                name="mobileNumber"
+                                value={formData.mobileNumber}
                                 onChange={handleInputChange}
-                                placeholder="           Email Address"
-                                className="input-field pl-10"
+                                placeholder="           Mobile Number"
+                                className="input-field pl-10 w-full"
                                 required
                             />
                         </motion.div>
@@ -144,6 +229,70 @@ const SignUp = ({ onTogglePage }) => {
                         key="step2"
                     >
                         <motion.div variants={itemVariants} className="mb-6">
+                            <h2 className="text-3xl font-bold gold-text mb-2">Verify Your Number</h2>
+                            <p className="text-gray-400">Step 2: Enter the OTP sent to your mobile</p>
+                        </motion.div>
+
+                        <motion.div variants={itemVariants} className="mb-4">
+                            <div className="flex items-center justify-between mb-2">
+                                <span className="text-gold-300 text-sm">OTP sent to: {formData.mobileNumber}</span>
+                                <button
+                                    type="button"
+                                    onClick={sendOTP}
+                                    className="text-gold-300 hover:text-gold-200 text-sm underline"
+                                >
+                                    Resend OTP
+                                </button>
+                            </div>
+
+                            {/* Modern OTP Input with 4 separate boxes */}
+                            <div className="flex justify-center items-center gap-3 my-6">
+                                {[0, 1, 2, 3].map((index) => (
+                                    <div key={index} className="w-14 h-14 relative">
+                                        <input
+                                            ref={otpRefs[index]}
+                                            type="text"
+                                            maxLength={1}
+                                            value={formData.otp[index]}
+                                            onChange={(e) => handleOtpChange(index, e.target.value)}
+                                            onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                                            onPaste={index === 0 ? handleOtpPaste : undefined}
+                                            className="w-full h-full text-center text-2xl font-bold bg-gray-900 border-2 border-gold-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-300 focus:border-transparent"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <p className="text-center text-gray-400 text-sm mt-2">
+                                Didn't receive the code? <button onClick={sendOTP} className="text-gold-300 hover:text-gold-200">Resend</button>
+                            </p>
+                        </motion.div>
+
+                        <motion.div variants={itemVariants} className="mb-6 relative">
+                            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gold-400">
+                                <FaEnvelope />
+                            </div>
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                placeholder="           Email Address (Optional)"
+                                className="input-field pl-10 w-full"
+                            />
+                        </motion.div>
+                    </motion.div>
+                );
+            case 2:
+                return (
+                    <motion.div
+                        className="w-full"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        key="step2"
+                    >
+                        <motion.div variants={itemVariants} className="mb-6">
                             <h2 className="text-3xl font-bold gold-text mb-2">Personal Details</h2>
                             <p className="text-gray-400">Step 2: Tell us about yourself</p>
                         </motion.div>
@@ -177,24 +326,9 @@ const SignUp = ({ onTogglePage }) => {
                                 required
                             />
                         </motion.div>
-
-                        <motion.div variants={itemVariants} className="mb-6 relative">
-                            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gold-400">
-                                <FaPhone />
-                            </div>
-                            <input
-                                type="tel"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleInputChange}
-                                placeholder="           Phone Number"
-                                className="input-field pl-10"
-                                required
-                            />
-                        </motion.div>
                     </motion.div>
                 );
-            case 2:
+            case 3:
                 return (
                     <motion.div
                         className="w-full"
@@ -264,7 +398,7 @@ const SignUp = ({ onTogglePage }) => {
                         </motion.div>
                     </motion.div>
                 );
-            case 3:
+            case 4:
                 return (
                     <motion.div
                         className="w-full"
