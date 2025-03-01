@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Drawer, Menu, Badge } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Drawer, Menu, Badge, Input } from 'antd';
 import { MenuOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
+const { Search } = Input
+
 function Header() {
     const [visible, setVisible] = useState(false);
+    const navigate = useNavigate()
 
     const cartItemCount = useSelector((state) => state.cart.items.length);
+
+    const onSearch = (value) => {
+        navigate(`/products?search=${encodeURIComponent(value)}`)
+    }
 
     return (
         <header className="fixed top-0 z-50 w-full bg-white/95 backdrop-blur shadow-sm">
@@ -48,6 +55,12 @@ function Header() {
                     </div>
 
                     <div className="flex items-center gap-5">
+                        <Search
+                            placeholder="Search products"
+                            onSearch={onSearch}
+                            style={{ width: 200 }}
+                            className="hidden md:block"
+                        />
                         <Link to="/cart">
                             <Badge count={cartItemCount} overflowCount={99}>
                                 <Button
@@ -90,6 +103,14 @@ function Header() {
                             <Link to="/contact" onClick={() => setVisible(false)}>
                                 Contact
                             </Link>
+                            <Search
+                                placeholder="Search products"
+                                onSearch={(value) => {
+                                    onSearch(value)
+                                    setVisible(false)
+                                }}
+                                style={{ width: "100%" }}
+                            />
                         </nav>
                     </Drawer>
                 </div>
