@@ -6,13 +6,13 @@ import Testimonials from "../components/Testimonials"
 
 function Home() {
     return (
-        <>
+        <div className="bg-gradient-to-b from-amber-50 via-white to-amber-50">
             <HeroSection />
             <ProductShowcase />
             <ColdPressedBenefits />
             <QualityGuarantee />
             <Testimonials />
-        </>
+        </div>
     )
 }
 

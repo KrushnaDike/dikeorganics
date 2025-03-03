@@ -123,7 +123,7 @@ function ProductDetails() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-amber-50 via-amber-100/30 to-white pt-16 pb-24 overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-b from-amber-50 via-amber-100/30 to-white pt-16 pb-24 overflow-hidden bg-gradient-to-b from-amber-50 via-white to-amber-50">
             {/* Background decorative elements */}
             <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(255,226,130,0.2)_0%,rgba(255,226,130,0)_50%)] pointer-events-none"></div>
             <div className="absolute top-1/3 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_60%,rgba(251,191,36,0.1)_0%,rgba(251,191,36,0)_50%)] pointer-events-none"></div>
