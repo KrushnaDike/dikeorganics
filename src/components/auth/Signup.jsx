@@ -170,7 +170,7 @@ const SignUp = ({ onTogglePage }) => {
                     >
                         <motion.div variants={itemVariants} className="mb-6">
                             <h2 className="text-3xl font-bold gold-text mb-2">Create Account</h2>
-                            <p className="text-gray-400">Step 1: Mobile Number & Password</p>
+                            <p className="text-gray-300">Step 1: Mobile Number & Password</p>
                         </motion.div>
 
                         <motion.div variants={itemVariants} className="mb-4 relative">
@@ -230,7 +230,7 @@ const SignUp = ({ onTogglePage }) => {
                     >
                         <motion.div variants={itemVariants} className="mb-6">
                             <h2 className="text-3xl font-bold gold-text mb-2">Verify Your Number</h2>
-                            <p className="text-gray-400">Step 2: Enter the OTP sent to your mobile</p>
+                            <p className="text-gray-300">Step 2: Enter the OTP sent to your mobile</p>
                         </motion.div>
 
                         <motion.div variants={itemVariants} className="mb-4">
@@ -263,7 +263,7 @@ const SignUp = ({ onTogglePage }) => {
                                 ))}
                             </div>
 
-                            <p className="text-center text-gray-400 text-sm mt-2">
+                            <p className="text-center text-gray-300 text-sm mt-2">
                                 Didn't receive the code? <button onClick={sendOTP} className="text-gold-300 hover:text-gold-200">Resend</button>
                             </p>
                         </motion.div>
@@ -294,7 +294,7 @@ const SignUp = ({ onTogglePage }) => {
                     >
                         <motion.div variants={itemVariants} className="mb-6">
                             <h2 className="text-3xl font-bold gold-text mb-2">Personal Details</h2>
-                            <p className="text-gray-400">Step 2: Tell us about yourself</p>
+                            <p className="text-gray-300">Step 2: Tell us about yourself</p>
                         </motion.div>
 
                         <motion.div variants={itemVariants} className="mb-4 relative">
@@ -339,7 +339,7 @@ const SignUp = ({ onTogglePage }) => {
                     >
                         <motion.div variants={itemVariants} className="mb-6">
                             <h2 className="text-3xl font-bold gold-text mb-2">Shipping Address</h2>
-                            <p className="text-gray-400">Step 3: Where should we deliver?</p>
+                            <p className="text-gray-300">Step 3: Where should we deliver?</p>
                         </motion.div>
 
                         <motion.div variants={itemVariants} className="mb-4 relative">
@@ -409,7 +409,7 @@ const SignUp = ({ onTogglePage }) => {
                     >
                         <motion.div variants={itemVariants} className="mb-6">
                             <h2 className="text-3xl font-bold gold-text mb-2">Payment Details</h2>
-                            <p className="text-gray-400">Step 4: Secure payment information</p>
+                            <p className="text-gray-300">Step 4: Secure payment information</p>
                         </motion.div>
 
                         <motion.div variants={itemVariants} className="mb-4 relative">
@@ -519,7 +519,7 @@ const SignUp = ({ onTogglePage }) => {
                         <h2 className="text-2xl font-bold gold-text mb-2">
                             Join Our Community
                         </h2>
-                        <p className="text-gray-400 max-w-xs mx-auto">
+                        <p className="text-gray-300 max-w-xs mx-auto">
                             Create an account to enjoy exclusive deals and a personalized shopping experience.
                         </p>
                     </motion.div>
@@ -536,7 +536,7 @@ const SignUp = ({ onTogglePage }) => {
 
                     {/* Progress bar */}
                     <div className="mt-6 mb-4">
-                        <div className="flex justify-between text-xs text-gray-400 mb-1">
+                        <div className="flex justify-between text-xs text-gray-300 mb-1">
                             <span>Step {currentStep + 1} of {totalSteps}</span>
                             <span>{Math.round(((currentStep + 1) / totalSteps) * 100)}% Complete</span>
                         </div>
@@ -573,7 +573,7 @@ const SignUp = ({ onTogglePage }) => {
 
                     {/* Toggle to signin */}
                     <div className="mt-8 text-center">
-                        <p className="text-gray-400">
+                        <p className="text-gray-200">
                             Already have an account?
                             <button
                                 type="button"

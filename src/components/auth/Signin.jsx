@@ -43,7 +43,7 @@ const SignIn = ({ onTogglePage }) => {
     };
 
     return (
-        <div className="w-full h-screen mt-32 max-w-4xl m-auto txt-clr">
+        <div className="w-full h-screen mt-32 max-w-4xl m-auto text-white">
             <div className="grid md:grid-cols-2 gap-8 items-center">
                 {/* Left side - Decorative */}
                 <motion.div
@@ -88,7 +88,7 @@ const SignIn = ({ onTogglePage }) => {
                         <h2 className="text-2xl font-bold gold-text mb-2">
                             Welcome Back
                         </h2>
-                        <p className="text-gray-400 max-w-xs mx-auto">
+                        <p className="text-gray-300 max-w-xs mx-auto">
                             Sign in to access your account and continue your shopping journey.
                         </p>
                     </motion.div>
@@ -109,7 +109,7 @@ const SignIn = ({ onTogglePage }) => {
                     >
                         <motion.div variants={itemVariants} className="mb-6">
                             <h2 className="text-3xl font-bold gold-text mb-2">Welcome Back</h2>
-                            <p className="text-gray-400">Sign in to continue shopping</p>
+                            <p className="text-gray-300">Sign in to continue shopping</p>
                         </motion.div>
 
                         <form onSubmit={handleSubmit}>
@@ -123,7 +123,7 @@ const SignIn = ({ onTogglePage }) => {
                                     value={formData.phone}
                                     onChange={handleInputChange}
                                     placeholder="           Phone Number"
-                                    className="input-field pl-10"
+                                    className="input-field pl-10 text-white"
                                     required
                                 />
                             </motion.div>
@@ -138,7 +138,7 @@ const SignIn = ({ onTogglePage }) => {
                                     value={formData.password}
                                     onChange={handleInputChange}
                                     placeholder="           Password"
-                                    className="input-field pl-10"
+                                    className="input-field pl-10 text-white"
                                     required
                                 />
                             </motion.div>
@@ -159,7 +159,7 @@ const SignIn = ({ onTogglePage }) => {
 
                         {/* Toggle to signup */}
                         <div className="mt-8 text-center">
-                            <p className="text-gray-400">
+                            <p className="text-gray-200">
                                 Don't have an account?
                                 <button
                                     type="button"
